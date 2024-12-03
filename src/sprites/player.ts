@@ -1,5 +1,7 @@
 import {
     PLAYER_RADIUS,
+    PLAYER_SHOOT_COOLDOWN,
+    PLAYER_SHOT_SPEED,
     PLAYER_SPEED,
     PLAYER_TURN_SPEED,
 } from "../utils/constants";
@@ -7,10 +9,12 @@ import { isKeyPressed } from "../utils/keyPressHandler";
 import { drawPolygon } from "../utils/shapes";
 import vector2D from "../utils/vector";
 import Circle_sprite from "./circleSprite";
+import Shot from "./shot";
 
 class Player extends Circle_sprite {
     pos: vector2D;
     rotation: number = 0;
+    shotCooldown: number = 0;
 
     constructor(x: number, y: number) {
         super(x, y, PLAYER_RADIUS, "white");
@@ -45,7 +49,7 @@ class Player extends Circle_sprite {
     }
 
     update(dt: number) {
-        console.log("update");
+        this.shotCooldown -= dt;
         if (isKeyPressed("KeyW") || isKeyPressed("ArrowUp")) {
             this.move(dt);
         }
@@ -58,6 +62,18 @@ class Player extends Circle_sprite {
         if (isKeyPressed("KeyS") || isKeyPressed("ArrowDown")) {
             this.move(-dt);
         }
+        if (isKeyPressed("Space")) {
+            this.shot();
+        }
+    }
+
+    shot() {
+        if (this.shotCooldown > 0) return;
+        this.shotCooldown = PLAYER_SHOOT_COOLDOWN;
+        const shot = new Shot(this.pos.x, this.pos.y);
+        shot.velocity = new vector2D(0, 1)
+            .rotateDeg(this.rotation)
+            .mul(PLAYER_SHOT_SPEED);
     }
 }
 

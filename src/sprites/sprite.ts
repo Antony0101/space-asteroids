@@ -8,6 +8,8 @@ class Sprite_abstract {
     isActive: boolean = true;
 
     constructor() {
+        this.spriteId = Sprite_abstract.curSpriteId;
+        Sprite_abstract.curSpriteId += 1;
         if ((this.constructor as typeof Sprite_abstract).groups) {
             (this.constructor as typeof Sprite_abstract).groups?.forEach(
                 (group) => {
@@ -15,14 +17,14 @@ class Sprite_abstract {
                 },
             );
         }
-        this.spriteId = Sprite_abstract.curSpriteId;
-        Sprite_abstract.curSpriteId++;
     }
     kill() {
         this.isActive = false;
-        Sprite_abstract.groups?.forEach((group) => {
-            group.sprites.delete(this.spriteId);
-        });
+        (this.constructor as typeof Sprite_abstract).groups?.forEach(
+            (group) => {
+                group.sprites.delete(this.spriteId);
+            },
+        );
     }
 }
 
