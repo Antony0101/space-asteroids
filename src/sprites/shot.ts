@@ -1,4 +1,4 @@
-import { SHOT_RADIUS } from "../utils/constants";
+import { SHOT_RADIUS } from "../values/constants";
 import { drawCircle } from "../utils/shapes";
 import Circle_sprite from "./circleSprite";
 

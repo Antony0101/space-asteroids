@@ -1,6 +1,3 @@
-export const SCREEN_WIDTH = 1280;
-export const SCREEN_HEIGHT = 720;
-
 export const ASTEROID_MIN_RADIUS = 20;
 export const ASTEROID_KINDS = 3;
 export const ASTEROID_SPAWN_RATE = 0.8; // seconds

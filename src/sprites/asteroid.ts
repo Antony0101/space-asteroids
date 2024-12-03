@@ -1,8 +1,4 @@
-import {
-    ASTEROID_MIN_RADIUS,
-    SCREEN_HEIGHT,
-    SCREEN_WIDTH,
-} from "../utils/constants";
+import { ASTEROID_MIN_RADIUS } from "../values/constants";
 import { getRandomInt } from "../utils/random";
 import { drawCircle } from "../utils/shapes";
 import Circle_sprite from "./circleSprite";
@@ -17,17 +13,17 @@ class Asteroid extends Circle_sprite {
     }
 
     update(dt: number) {
-        // if (this.pos.x > SCREEN_WIDTH) {
+        // if (this.pos.x > global_Object.screenWidth) {
         //     this.pos.x = 0;
         // }
         // if (this.pos.x < 0) {
-        //     this.pos.x = SCREEN_WIDTH;
+        //     this.pos.x = global_Object.screenWidth;
         // }
-        // if (this.pos.y > SCREEN_HEIGHT) {
+        // if (this.pos.y > global_Object.screenHeight) {
         //     this.pos.y = 0;
         // }
         // if (this.pos.y < 0) {
-        //     this.pos.y = SCREEN_HEIGHT;
+        //     this.pos.y = global_Object.screenHeight;
         // }
         this.pos.add(this.velocity.copy().mul(dt));
     }

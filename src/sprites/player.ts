@@ -4,7 +4,7 @@ import {
     PLAYER_SHOT_SPEED,
     PLAYER_SPEED,
     PLAYER_TURN_SPEED,
-} from "../utils/constants";
+} from "../values/constants";
 import { isKeyPressed } from "../utils/keyPressHandler";
 import { drawPolygon } from "../utils/shapes";
 import vector2D from "../utils/vector";

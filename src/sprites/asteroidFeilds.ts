@@ -3,13 +3,12 @@ import {
     ASTEROID_MAX_RADIUS,
     ASTEROID_MIN_RADIUS,
     ASTEROID_SPAWN_RATE,
-    SCREEN_HEIGHT,
-    SCREEN_WIDTH,
-} from "../utils/constants";
+} from "../values/constants";
 import { getRandomInt } from "../utils/random";
 import vector2D from "../utils/vector";
 import Asteroid from "./asteroid";
 import { Sprite_abstract } from "./sprite";
+import global_Object from "../values/global";
 
 class AsteroidField extends Sprite_abstract {
     spawn_timer: number = 0;
@@ -17,26 +16,33 @@ class AsteroidField extends Sprite_abstract {
         [
             new vector2D(1, 0),
             (y: number) =>
-                new vector2D(-ASTEROID_MAX_RADIUS, y * SCREEN_HEIGHT),
+                new vector2D(
+                    -ASTEROID_MAX_RADIUS,
+                    y * global_Object.screenHeight,
+                ),
         ],
         [
             new vector2D(-1, 0),
             (y: number) =>
                 new vector2D(
-                    SCREEN_WIDTH + ASTEROID_MAX_RADIUS,
-                    y * SCREEN_HEIGHT,
+                    global_Object.screenWidth + ASTEROID_MAX_RADIUS,
+                    y * global_Object.screenHeight,
                 ),
         ],
         [
             new vector2D(0, 1),
-            (x: number) => new vector2D(x * SCREEN_WIDTH, -ASTEROID_MAX_RADIUS),
+            (x: number) =>
+                new vector2D(
+                    x * global_Object.screenWidth,
+                    -ASTEROID_MAX_RADIUS,
+                ),
         ],
         [
             new vector2D(0, -1),
             (x: number) =>
                 new vector2D(
-                    x * SCREEN_WIDTH,
-                    SCREEN_HEIGHT + ASTEROID_MAX_RADIUS,
+                    x * global_Object.screenWidth,
+                    global_Object.screenHeight + ASTEROID_MAX_RADIUS,
                 ),
         ],
     ] as const;

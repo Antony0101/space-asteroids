@@ -4,17 +4,58 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Vite + TS</title>
+        <title>space-asteroids</title>
     </head>
-    <body>
-        <div id="app">
+    <body style="margin: 0">
+        <div
+            id="app"
+            style="background-color: black; width: 100vw; height: 100vh"
+        >
+            <div
+                style="
+                    background-color: black;
+                    display: flex;
+                    justify-content: space-evenly;
+                    gap: 10px;
+                    padding-left: 10px;
+                "
+            >
+                <div>
+                    <h1 style="color: white">Move Forward - W</h1>
+                </div>
+                <div>
+                    <h1 style="color: white">Move Backward - S</h1>
+                </div>
+                <div>
+                    <h1 style="color: white">Rotate Left - A</h1>
+                </div>
+                <div>
+                    <h1 style="color: white">Rotate Right - D</h1>
+                </div>
+                <div>
+                    <h1 style="color: white">Fire - Space</h1>
+                </div>
+            </div>
             <canvas
                 id="canvas"
-                style="border: 2px solid; width: 90%; height: 90%"
+                style="border: 2px solid; visibility: hidden"
             ></canvas>
-            <button id="start">Start</button>
-            <button id="stop">Stop</button>
-            <button id="reset">Reset</button>
+            <div
+                id="start"
+                style="
+                    z-index: 10;
+                    position: absolute;
+                    top: 40vh;
+                    left: 40vw;
+                    color: white;
+                    border: 2px solid white;
+                    border-radius: 10px;
+                    padding: 10px;
+                    background-color: black;
+                "
+            >
+                <h3>Click Here to Start</h3>
+            </div>
         </div>
         <script type="module" src="/src/main.ts"></script>
     </body>

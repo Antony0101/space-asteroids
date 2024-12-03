@@ -1,107 +1,62 @@
-import Asteroid from "./sprites/asteroid";
-import AsteroidField from "./sprites/asteroidFeilds";
-import Player from "./sprites/player";
-import Shot from "./sprites/shot";
-import { Sprite_abstract, Sprite_group } from "./sprites/sprite";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./utils/constants";
-import { sleepFrame } from "./utils/frameTimer";
+import game_main from "./game_main";
 import { addListeners } from "./utils/keyPressHandler";
+import global_Object from "./values/global";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-const startButton = document.getElementById("start") as HTMLButtonElement;
-const stopButton = document.getElementById("stop") as HTMLButtonElement;
-const resetButton = document.getElementById("reset") as HTMLButtonElement;
+const startElement = document.getElementById("start") as HTMLDivElement;
+
 const ctx = canvas?.getContext("2d");
 if (!ctx) {
     throw new Error("Canvas not found");
 }
 
-canvas.style.width = SCREEN_WIDTH + "px";
-canvas.style.height = SCREEN_HEIGHT + "px";
+canvas.style.width = global_Object.screenWidth + "px";
+canvas.style.height = global_Object.screenHeight + "px";
 
 // Set actual size in memory (scaled to account for extra pixel density).
 var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
-canvas.width = SCREEN_WIDTH * scale;
-canvas.height = SCREEN_HEIGHT * scale;
+canvas.width = global_Object.screenWidth * scale;
+canvas.height = global_Object.screenHeight * scale;
 
 // Normalize coordinate system to use css pixels.
 ctx.scale(scale, scale);
 
-// create all groups
-const drawables = new Sprite_group<
-    Sprite_abstract & { draw: (ctx: CanvasRenderingContext2D) => void }
->();
-const updateables = new Sprite_group<
-    Sprite_abstract & { update: (dt: number) => void }
->();
-const allSprites = new Sprite_group<Sprite_abstract>();
-const asteroids = new Sprite_group<Asteroid>();
-const shots = new Sprite_group<Shot>();
+ctx.fillStyle = "black";
+ctx.fillRect(0, 0, global_Object.screenWidth, global_Object.screenHeight);
 
-// set groups
-Player.groups = [drawables, updateables, allSprites];
-Asteroid.groups = [drawables, updateables, allSprites, asteroids];
-AsteroidField.groups = [updateables, allSprites];
-Shot.groups = [drawables, updateables, allSprites, shots];
+canvas.style.visibility = "visible";
 
-// create player
-let player = new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-
-// create asteroid field
-new AsteroidField();
-
-console.log(drawables);
-console.log(updateables);
-
-let dt = 0;
-let stop = true;
 addListeners();
-async function mainLoop() {
-    if (!ctx) {
-        throw new Error("Canvas not found");
-    }
-    while (true) {
-        if (stop) {
+
+const gameObjects = game_main(ctx, (event, data) => {
+    switch (event) {
+        case "game_over":
+            startElement.style.display = "block";
+            console.log("game over");
+            console.log(data);
             break;
-        }
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        updateables.forEach((sprite) => sprite.update(dt));
-        asteroids.forEach((asteroid) => {
-            // asteroid collision with player
-            if (asteroid.isCollided(player)) {
-                allSprites.getSpriteArray().forEach((sprite) => sprite.kill());
-                stop = true;
-                alert("Game Over");
-            }
-        });
-        asteroids.forEach((asteroid) => {
-            shots.getSpriteArray().forEach((shot) => {
-                // shot collision with asteroid
-                if (asteroid.isCollided(shot)) {
-                    asteroid.split();
-                    shot.kill();
-                }
-            });
-        });
-        drawables.forEach((sprite) => sprite.draw(ctx));
-        dt = await sleepFrame(60);
     }
-}
+});
 
-startButton.onclick = () => {
-    if (stop) {
-        stop = false;
-        mainLoop();
-    }
+startElement.onclick = () => {
+    startElement.style.display = "none";
+    gameObjects.reset();
+    gameObjects.start();
 };
 
-stopButton.onclick = () => {
-    stop = true;
-};
+// startButton.onclick = () => {
+//     if (stop) {
+//         stop = false;
+//         mainLoop();
+//     }
+// };
 
-resetButton.onclick = () => {
-    allSprites.getSpriteArray().forEach((sprite) => sprite.kill());
-    new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-    new AsteroidField();
-};
+// stopButton.onclick = () => {
+//     stop = true;
+// };
+
+// resetButton.onclick = () => {
+//     allSprites.getSpriteArray().forEach((sprite) => sprite.kill());
+//     new Player(global_Object.screenWidth / 2, global_Object.screenHeight / 2);
+//     new AsteroidField();
+// };
