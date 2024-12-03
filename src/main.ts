@@ -36,15 +36,16 @@ const updateables = new Sprite_group<
 >();
 const allSprites = new Sprite_group<Sprite_abstract>();
 const asteroids = new Sprite_group<Asteroid>();
+const shots = new Sprite_group<Shot>();
 
 // set groups
 Player.groups = [drawables, updateables, allSprites];
 Asteroid.groups = [drawables, updateables, allSprites, asteroids];
 AsteroidField.groups = [updateables, allSprites];
-Shot.groups = [drawables, updateables, allSprites];
+Shot.groups = [drawables, updateables, allSprites, shots];
 
 // create player
-new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+let player = new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
 // create asteroid field
 new AsteroidField();
@@ -54,19 +55,36 @@ console.log(updateables);
 
 let dt = 0;
 let stop = true;
+addListeners();
 async function mainLoop() {
     if (!ctx) {
         throw new Error("Canvas not found");
     }
-    addListeners();
     while (true) {
         if (stop) {
             break;
         }
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        drawables.getSpriteArray().forEach((sprite) => sprite.draw(ctx));
-        updateables.getSpriteArray().forEach((sprite) => sprite.update(dt));
+        updateables.forEach((sprite) => sprite.update(dt));
+        asteroids.forEach((asteroid) => {
+            // asteroid collision with player
+            if (asteroid.isCollided(player)) {
+                allSprites.getSpriteArray().forEach((sprite) => sprite.kill());
+                stop = true;
+                alert("Game Over");
+            }
+        });
+        asteroids.forEach((asteroid) => {
+            shots.getSpriteArray().forEach((shot) => {
+                // shot collision with asteroid
+                if (asteroid.isCollided(shot)) {
+                    asteroid.split();
+                    shot.kill();
+                }
+            });
+        });
+        drawables.forEach((sprite) => sprite.draw(ctx));
         dt = await sleepFrame(60);
     }
 }

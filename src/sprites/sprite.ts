@@ -48,6 +48,11 @@ class Sprite_group<T extends Sprite_abstract> {
     getSpriteArray() {
         return Array.from(this.sprites.values());
     }
+    forEach(callback: (sprite: T) => void) {
+        Array.from(this.sprites.values())
+            .filter((sprite) => sprite.isActive)
+            .forEach(callback);
+    }
 }
 
 export { Sprite_abstract, Sprite_group };
