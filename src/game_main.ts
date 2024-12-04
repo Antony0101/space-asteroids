@@ -6,7 +6,7 @@ import { Sprite_abstract, Sprite_group } from "./sprites/sprite";
 import { sleepFrame } from "./utils/frameTimer";
 import global_Object from "./values/global";
 
-type callback_events = "game_over";
+type callback_events = "game_over" | "shot_hit" | "game_reset";
 
 function game_main(
     ctx: CanvasRenderingContext2D,
@@ -72,6 +72,7 @@ function game_main(
                     if (asteroid.isCollided(shot)) {
                         asteroid.split();
                         shot.kill();
+                        callback("shot_hit", null);
                     }
                 });
             });
@@ -92,10 +93,12 @@ function game_main(
                 global_Object.screenHeight / 2,
             );
             new AsteroidField();
+            callback("game_reset", null);
         },
         pause: () => {
             stop = true;
         },
+        isPaused: () => stop,
     };
 }
 

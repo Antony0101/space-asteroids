@@ -1,19 +1,20 @@
-import { menuElement } from "./elementReferences";
+import { menuElement, startButton } from "./elementReferences";
 
-function addCustomEventListeners() {
-    // window.addEventListener("keydown", (event) => {
-    //     console.log("keydown", event.code);
-    //     keysPressed[event.code] = true;
-    //     console.log(keysPressed);
-    // });
-
+function addCustomEventListeners(gameObject: any) {
     window.addEventListener("keyup", (event) => {
         if (event.code === "Escape") {
-            console.log("keyup", event.code);
-            menuElement.style.visibility =
-                menuElement.style.visibility === "hidden"
-                    ? "visible"
-                    : "hidden";
+            if (gameObject.isPaused()) {
+                menuElement.style.visibility = "hidden";
+                gameObject.start();
+            } else {
+                startButton.textContent = "Resume";
+                menuElement.style.visibility = "visible";
+                gameObject.pause();
+            }
+            // menuElement.style.visibility =
+            //     menuElement.style.visibility === "hidden"
+            //         ? "visible"
+            //         : "hidden";
         }
     });
 }
