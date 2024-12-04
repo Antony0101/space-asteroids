@@ -1,9 +1,15 @@
 import game_main from "./game_main";
 import { addListeners } from "./utils/keyPressHandler";
 import global_Object from "./values/global";
-
-const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-const startElement = document.getElementById("start") as HTMLDivElement;
+import {
+    canvas,
+    menuElement,
+    newGameButton,
+    resetButton,
+    startButton,
+    overMenuElement,
+} from "./utils/elementReferences";
+import addCustomEventListeners from "./utils/eventHandlers";
 
 const ctx = canvas?.getContext("2d");
 if (!ctx) {
@@ -25,38 +31,34 @@ ctx.fillStyle = "black";
 ctx.fillRect(0, 0, global_Object.screenWidth, global_Object.screenHeight);
 
 canvas.style.visibility = "visible";
+menuElement.style.visibility = "visible";
 
 addListeners();
+addCustomEventListeners();
 
 const gameObjects = game_main(ctx, (event, data) => {
     switch (event) {
         case "game_over":
-            startElement.style.display = "block";
+            overMenuElement.style.visibility = "visible";
             console.log("game over");
             console.log(data);
             break;
     }
 });
 
-startElement.onclick = () => {
-    startElement.style.display = "none";
-    gameObjects.reset();
+startButton.onclick = () => {
+    menuElement.style.visibility = "hidden";
     gameObjects.start();
 };
 
-// startButton.onclick = () => {
-//     if (stop) {
-//         stop = false;
-//         mainLoop();
-//     }
-// };
+resetButton.onclick = () => {
+    gameObjects.reset();
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, global_Object.screenWidth, global_Object.screenHeight);
+};
 
-// stopButton.onclick = () => {
-//     stop = true;
-// };
-
-// resetButton.onclick = () => {
-//     allSprites.getSpriteArray().forEach((sprite) => sprite.kill());
-//     new Player(global_Object.screenWidth / 2, global_Object.screenHeight / 2);
-//     new AsteroidField();
-// };
+newGameButton.onclick = () => {
+    overMenuElement.style.visibility = "hidden";
+    gameObjects.reset();
+    gameObjects.start();
+};

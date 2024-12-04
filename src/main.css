@@ -1,0 +1,144 @@
+/* html tags */
+
+body {
+    margin: 0px;
+}
+
+h1 {
+    padding: 0px;
+    margin: 0px;
+}
+
+h2 {
+    padding: 0px;
+    margin: 0px;
+}
+
+h3 {
+    padding: 0px;
+    margin: 0px;
+}
+
+h4 {
+    padding: 0px;
+    margin: 0px;
+}
+
+h5 {
+    padding: 0px;
+    margin: 0px;
+}
+
+h6 {
+    padding: 0px;
+    margin: 0px;
+}
+
+/* html ids */
+
+#app {
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#top-bar {
+    width: 100vw;
+    height: 10vh;
+}
+
+#top-bar-content {
+    border: 2px solid white;
+    display: flex;
+    color: white;
+    justify-content: space-between;
+    height: 9vh;
+}
+
+#top-bar-content-left {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+#top-bar-content-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    padding-right: 10px;
+}
+
+#canvas {
+    visibility: hidden;
+    overflow: hidden;
+}
+
+#pause-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    visibility: hidden;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+#pause-menu-outer-div {
+    color: white;
+    border: 2px solid white;
+    padding: 10px;
+    background-color: black;
+}
+
+#pause-menu-content {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+
+#pause-menu-content-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#over-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    visibility: hidden;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+#over-menu-outer-div {
+    color: white;
+    border: 2px solid white;
+    padding: 10px;
+    background-color: black;
+}
+
+#over-menu-content {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+
+#over-menu-content-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* html class */
