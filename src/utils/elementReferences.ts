@@ -11,10 +11,14 @@ const resetButton = document.getElementById(
 const newGameButton = document.getElementById(
     "new-game-button",
 ) as HTMLButtonElement;
+const resetScoreButton = document.getElementById(
+    "reset-score-button",
+) as HTMLButtonElement;
 const scoreElement = document.getElementById("score") as HTMLSpanElement;
 const highScoreElement = document.getElementById(
     "high-score",
 ) as HTMLSpanElement;
+const controlsElement = document.getElementById("controls") as HTMLDivElement;
 
 // console.log(canvas, menuElement, topBarElement);
 
@@ -28,4 +32,6 @@ export {
     newGameButton,
     scoreElement,
     highScoreElement,
+    controlsElement,
+    resetScoreButton,
 };

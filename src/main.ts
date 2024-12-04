@@ -10,6 +10,8 @@ import {
     overMenuElement,
     scoreElement,
     highScoreElement,
+    controlsElement,
+    resetScoreButton,
 } from "./utils/elementReferences";
 import addCustomEventListeners from "./utils/eventHandlers";
 
@@ -34,6 +36,7 @@ ctx.fillRect(0, 0, global_Object.screenWidth, global_Object.screenHeight);
 
 canvas.style.visibility = "visible";
 menuElement.style.visibility = "visible";
+controlsElement.style.visibility = "visible";
 
 global_States.highScore = localStorage.getItem("highScore")
     ? parseInt(localStorage.getItem("highScore") as string)
@@ -71,6 +74,7 @@ addCustomEventListeners(gameObject);
 
 startButton.onclick = () => {
     menuElement.style.visibility = "hidden";
+    controlsElement.style.visibility = "hidden";
     gameObject.start();
 };
 
@@ -85,4 +89,12 @@ newGameButton.onclick = () => {
     overMenuElement.style.visibility = "hidden";
     gameObject.reset();
     gameObject.start();
+};
+
+resetScoreButton.onclick = () => {
+    global_States.highScore = 0;
+    global_States.score = 0;
+    localStorage.setItem("highScore", "0");
+    scoreElement.textContent = "0";
+    highScoreElement.textContent = "0";
 };
