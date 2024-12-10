@@ -36,11 +36,22 @@ h6 {
 
 /* html ids */
 
+#not-supported {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    color: white;
+}
+
 #app {
     background-color: black;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    display: none;
 }
 
 #top-bar {
@@ -175,4 +186,15 @@ h6 {
 
 .pb-10 {
     padding-bottom: 10px;
+}
+
+/* media queries */
+
+@media screen and (min-width: 1024px) and (min-height: 550px) {
+    #not-supported {
+        display: none;
+    }
+    #app {
+        display: block;
+    }
 }
