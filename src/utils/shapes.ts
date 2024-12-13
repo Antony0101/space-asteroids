@@ -45,4 +45,20 @@ function drawPolygon(
     ctx.closePath();
 }
 
-export { drawCircle, drawTriangle, drawPolygon };
+function fillPolygon(
+    ctx: CanvasRenderingContext2D,
+    cordinates: vector2D[],
+    color: string = "black",
+) {
+    ctx.beginPath();
+    ctx.moveTo(cordinates[0].x, cordinates[0].y);
+    for (let i = 1; i < cordinates.length; i++) {
+        ctx.lineTo(cordinates[i].x, cordinates[i].y);
+    }
+    ctx.lineTo(cordinates[0].x, cordinates[0].y);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.closePath();
+}
+
+export { drawCircle, drawTriangle, drawPolygon, fillPolygon };
