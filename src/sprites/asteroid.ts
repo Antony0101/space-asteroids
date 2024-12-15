@@ -12,6 +12,17 @@ class Asteroid extends Circle_sprite {
         drawCircle(ctx, this.pos, this.radius, this.color);
     }
 
+    updateOutsideBounds() {
+        if (
+            this.pos.x < -0.1 * window.innerWidth ||
+            this.pos.x > window.innerWidth + 0.1 * window.innerWidth ||
+            this.pos.y < -0.1 * window.innerHeight ||
+            this.pos.y > window.innerHeight + 0.1 * window.innerHeight
+        ) {
+            this.kill();
+        }
+    }
+
     update(dt: number) {
         // if (this.pos.x > global_Object.screenWidth) {
         //     this.pos.x = 0;
@@ -26,6 +37,7 @@ class Asteroid extends Circle_sprite {
         //     this.pos.y = global_Object.screenHeight;
         // }
         this.pos.add(this.velocity.copy().mul(dt));
+        this.updateOutsideBounds();
     }
 
     split() {

@@ -53,6 +53,9 @@ class Sprite_group<T extends Sprite_abstract> {
             .filter((sprite) => sprite.isActive)
             .forEach(callback);
     }
+    length() {
+        return this.getSpriteArray().length;
+    }
 }
 
 export { Sprite_abstract, Sprite_group };

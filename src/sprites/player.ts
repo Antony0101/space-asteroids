@@ -132,10 +132,18 @@ class Player extends Circle_sprite {
         this.rotation += PLAYER_TURN_SPEED * dt;
     }
 
+    updateOutsideBounds() {
+        if (this.pos.x < 0) this.pos.x = window.innerWidth;
+        if (this.pos.x > window.innerWidth) this.pos.x = 0;
+        if (this.pos.y < 0) this.pos.y = window.innerHeight;
+        if (this.pos.y > window.innerHeight) this.pos.y = 0;
+    }
+
     update(dt: number) {
         this.isAccelerating = false;
         this.shotCooldown -= dt;
         this.move(dt);
+        this.updateOutsideBounds();
         if (isKeyPressed("KeyW") || isKeyPressed("ArrowUp")) {
             this.isAccelerating = true;
             this.accelerate(dt, true);
