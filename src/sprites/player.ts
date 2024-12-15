@@ -9,8 +9,9 @@ import {
 } from "../values/constants";
 import { isKeyPressed } from "../utils/keyPressHandler";
 import {
-    drawCircle,
-    // drawPolygon,
+    // drawCircle
+    fillCircle,
+    drawPolygon,
     fillPolygon,
 } from "../utils/shapes";
 import vector2D from "../utils/vector";
@@ -44,19 +45,62 @@ class Player extends Circle_sprite {
             .copy()
             .sub(forward.copy().mul(this.radius))
             .sub(right);
-        fillPolygon(ctx, [a, b, c], this.color);
+        fillPolygon(ctx, [a, b, this.pos, c], this.color);
+        fillCircle(ctx, this.pos, (2 * this.radius) / 7, "black");
         // interesting circle
         // const d = b
         //     .copy()
         //     .add(c)
         //     .div(2)
         //     .add(new vector2D(0, 1).mul(this.radius / 2));
-        const d = b
+        const fireMidPoint = b
             .copy()
             .add(c)
             .div(2)
-            .add(new vector2D(0, -this.radius / 2).rotateDeg(this.rotation));
-        this.isAccelerating && drawCircle(ctx, d, this.radius / 2, this.color);
+            .add(new vector2D(0, -this.radius / 4).rotateDeg(this.rotation));
+        // this.isAccelerating && drawCircle(ctx, d, this.radius / 2, this.color);
+
+        // interesting triangle
+        // const fireA = fireMidPoint
+        //     .copy()
+        //     .add(forward.copy().mul(this.radius / 2));
+        // const fireB = fireMidPoint
+        //     .copy()
+        //     .sub(forward.copy().mul(this.radius / 2))
+        //     .add(right);
+        // const fireC = fireMidPoint
+        //     .copy()
+        //     .sub(forward.copy().mul(this.radius / 2))
+        //     .sub(right);
+        // fillPolygon(ctx, [fireA, fireB, fireC], "orange");
+
+        const fireB = fireMidPoint
+            .copy()
+            .add(
+                new vector2D(1, 0)
+                    .rotateDeg(this.rotation)
+                    .mul(this.radius / 3),
+            );
+        const fireC = fireMidPoint
+            .copy()
+            .sub(
+                new vector2D(1, 0)
+                    .rotateDeg(this.rotation)
+                    .mul(this.radius / 3),
+            );
+        const fireA = fireMidPoint
+            .copy()
+            .add(
+                new vector2D(0, -2)
+                    .rotateDeg(this.rotation)
+                    .mul(this.radius / 2),
+            );
+        this.isAccelerating &&
+            drawPolygon(ctx, [fireA, fireB, fireC], this.color);
+        // fillCircle(ctx, fireB, this.radius / 8, "yellow");
+        // fillCircle(ctx, fireC, this.radius / 8, "green");
+        // fillCircle(ctx, fireA, this.radius / 8, "blue");
+        // fillCircle(ctx, fireMidPoint, this.radius / 8, "red");
     }
 
     accelerate(dt: number, isForward: boolean) {

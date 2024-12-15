@@ -13,6 +13,19 @@ function drawCircle(
     ctx.closePath();
 }
 
+function fillCircle(
+    ctx: CanvasRenderingContext2D,
+    pos: vector2D,
+    radius: number,
+    color: string = "black",
+) {
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.closePath();
+}
+
 function drawTriangle(
     ctx: CanvasRenderingContext2D,
     pos: vector2D,
@@ -61,4 +74,4 @@ function fillPolygon(
     ctx.closePath();
 }
 
-export { drawCircle, drawTriangle, drawPolygon, fillPolygon };
+export { drawCircle, drawTriangle, drawPolygon, fillPolygon, fillCircle };
