@@ -8,15 +8,11 @@ import {
     PLAYER_TURN_SPEED,
 } from "../values/constants";
 import { isKeyPressed } from "../utils/keyPressHandler";
-import {
-    // drawCircle
-    fillCircle,
-    drawPolygon,
-    fillPolygon,
-} from "../utils/shapes";
+
 import vector2D from "../utils/vector";
 import Circle_sprite from "./circleSprite";
 import Shot from "./shot";
+import DrawArea from "../lib/draw_area/draw_area";
 
 class Player extends Circle_sprite {
     pos: vector2D;
@@ -31,7 +27,8 @@ class Player extends Circle_sprite {
         this.rotation = 0;
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
+    draw() {
+        const drawArea = new DrawArea();
         const forward = new vector2D(0, 1).rotateDeg(this.rotation);
         const right = new vector2D(0, 1)
             .rotateDeg(this.rotation + 90)
@@ -45,8 +42,8 @@ class Player extends Circle_sprite {
             .copy()
             .sub(forward.copy().mul(this.radius))
             .sub(right);
-        fillPolygon(ctx, [a, b, this.pos, c], this.color);
-        fillCircle(ctx, this.pos, (2 * this.radius) / 7, "black");
+        drawArea.fillPolygon([a, b, this.pos, c], this.color);
+        drawArea.fillCircle(this.pos, (2 * this.radius) / 7, "black");
         // interesting circle
         // const d = b
         //     .copy()
@@ -96,11 +93,12 @@ class Player extends Circle_sprite {
                     .mul(this.radius / 2),
             );
         this.isAccelerating &&
-            drawPolygon(ctx, [fireA, fireB, fireC], this.color);
+            drawArea.strokePolygon([fireA, fireB, fireC], this.color);
         // fillCircle(ctx, fireB, this.radius / 8, "yellow");
         // fillCircle(ctx, fireC, this.radius / 8, "green");
         // fillCircle(ctx, fireA, this.radius / 8, "blue");
         // fillCircle(ctx, fireMidPoint, this.radius / 8, "red");
+        return drawArea;
     }
 
     accelerate(dt: number, isForward: boolean) {

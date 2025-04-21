@@ -1,3 +1,5 @@
+import DrawArea from "./lib/draw_area/draw_area";
+import Canvas2DAdapterDrawArea from "./lib/draw_area/draw_area_canvas_adapter";
 import Asteroid from "./sprites/asteroid";
 import AsteroidField from "./sprites/asteroidFeilds";
 import Player from "./sprites/player";
@@ -14,7 +16,7 @@ function game_main(
 ) {
     // create all groups
     const drawables = new Sprite_group<
-        Sprite_abstract & { draw: (ctx: CanvasRenderingContext2D) => void }
+        Sprite_abstract & { draw: () => DrawArea }
     >();
     const updateables = new Sprite_group<
         Sprite_abstract & { update: (dt: number) => void }
@@ -37,6 +39,9 @@ function game_main(
 
     // create asteroid field
     new AsteroidField();
+
+    // create canvas Adapter for draw Area
+    const canvasAdapter = new Canvas2DAdapterDrawArea(ctx);
 
     let dt = 0;
     let stop = true;
@@ -76,7 +81,12 @@ function game_main(
                     }
                 });
             });
-            drawables.forEach((sprite) => sprite.draw(ctx));
+            // drawables.forEach((sprite) => sprite.draw(ctx));
+            const mainArea = new DrawArea();
+            drawables.forEach((sprite) => {
+                mainArea.addDrawArea(sprite.draw());
+            });
+            canvasAdapter.render(mainArea);
             dt = await sleepFrame(60);
         }
     }

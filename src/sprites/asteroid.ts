@@ -1,15 +1,17 @@
 import { ASTEROID_MIN_RADIUS } from "../values/constants";
 import { getRandomInt } from "../utils/random";
-import { drawCircle } from "../utils/shapes";
 import Circle_sprite from "./circleSprite";
+import DrawArea from "../lib/draw_area/draw_area";
 
 class Asteroid extends Circle_sprite {
     constructor(x: number, y: number, radius: number) {
         super(x, y, radius, "white");
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
-        drawCircle(ctx, this.pos, this.radius, this.color);
+    draw() {
+        const drawArea = new DrawArea();
+        drawArea.strokeCircle(this.pos, this.radius, this.color);
+        return drawArea;
     }
 
     updateOutsideBounds() {
