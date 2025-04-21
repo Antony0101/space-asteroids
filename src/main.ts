@@ -24,7 +24,7 @@ canvas.style.width = global_Object.screenWidth + "px";
 canvas.style.height = global_Object.screenHeight + "px";
 
 // Set actual size in memory (scaled to account for extra pixel density).
-var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+let scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
 canvas.width = global_Object.screenWidth * scale;
 canvas.height = global_Object.screenHeight * scale;
 

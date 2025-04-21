@@ -1,4 +1,5 @@
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+
 const menuElement = document.getElementById("pause-menu") as HTMLDivElement;
 const overMenuElement = document.getElementById("over-menu") as HTMLDivElement;
 const topBarElement = document.getElementById("top-bar") as HTMLDivElement;
