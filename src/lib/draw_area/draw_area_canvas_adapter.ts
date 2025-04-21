@@ -5,8 +5,6 @@ class Canvas2DAdapterDrawArea {
     canvas: CanvasRenderingContext2D;
     constructor(canvas: CanvasRenderingContext2D) {
         this.canvas = canvas;
-        const centre = this.canvasCentreCoordinates();
-        this.canvas.translate(centre.x, centre.y);
     }
 
     canvasCentreCoordinates() {
@@ -17,8 +15,12 @@ class Canvas2DAdapterDrawArea {
     }
 
     render(drawArea: DrawArea) {
+        const centre = this.canvasCentreCoordinates();
+        this.canvas.save();
+        this.canvas.translate(centre.x, centre.y);
         const jobs = drawArea.jobs;
         this.innerRender(jobs, [1, 0, 0, 1, 0, 0]);
+        this.canvas.restore();
     }
 
     createTransformMatrix(

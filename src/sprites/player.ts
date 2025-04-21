@@ -131,10 +131,13 @@ class Player extends Circle_sprite {
     }
 
     updateOutsideBounds() {
-        if (this.pos.x < 0) this.pos.x = window.innerWidth;
-        if (this.pos.x > window.innerWidth) this.pos.x = 0;
-        if (this.pos.y < 0) this.pos.y = window.innerHeight;
-        if (this.pos.y > window.innerHeight) this.pos.y = 0;
+        if (this.pos.x < -window.innerWidth / 2)
+            this.pos.x = window.innerWidth / 2;
+        if (this.pos.x > window.innerWidth / 2) this.pos.x = -window.innerWidth;
+        if (this.pos.y < -window.innerHeight / 2)
+            this.pos.y = window.innerHeight / 2;
+        if (this.pos.y > window.innerHeight / 2)
+            this.pos.y = -window.innerHeight / 2;
     }
 
     update(dt: number) {

@@ -32,10 +32,7 @@ function game_main(
     Shot.groups = [drawables, updateables, allSprites, shots];
 
     // create player
-    let player = new Player(
-        global_Object.screenWidth / 2,
-        global_Object.screenHeight / 2,
-    );
+    let player = new Player(0, 0);
 
     // create asteroid field
     new AsteroidField();
@@ -99,8 +96,10 @@ function game_main(
         reset: () => {
             allSprites.getSpriteArray().forEach((sprite) => sprite.kill());
             player = new Player(
-                global_Object.screenWidth / 2,
-                global_Object.screenHeight / 2,
+                // global_Object.screenWidth / 2,
+                0,
+                // global_Object.screenHeight / 2,
+                0,
             );
             new AsteroidField();
             callback("game_reset", null);
