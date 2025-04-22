@@ -16,10 +16,10 @@ class Asteroid extends Circle_sprite {
 
     updateOutsideBounds() {
         if (
-            this.pos.x < -0.1 * window.innerWidth ||
-            this.pos.x > window.innerWidth + 0.1 * window.innerWidth ||
-            this.pos.y < -0.1 * window.innerHeight ||
-            this.pos.y > window.innerHeight + 0.1 * window.innerHeight
+            this.pos.x < -(0.1 * window.innerWidth + window.innerWidth / 2) ||
+            this.pos.x > window.innerWidth / 2 + 0.1 * window.innerWidth ||
+            this.pos.y < -(0.1 * window.innerHeight + window.innerHeight / 2) ||
+            this.pos.y > window.innerHeight / 2 + 0.1 * window.innerHeight
         ) {
             this.kill();
         }

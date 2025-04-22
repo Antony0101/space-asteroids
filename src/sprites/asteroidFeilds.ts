@@ -68,7 +68,7 @@ class AsteroidField extends Sprite_abstract {
                 .copy()
                 .mul(speed)
                 .rotateDeg(getRandomInt(-30, 30));
-            const postion = edge[1](Math.random());
+            const postion = edge[1](Math.random() - 0.5);
             const kind = getRandomInt(1, ASTEROID_KINDS);
             this.spawn(ASTEROID_MIN_RADIUS * kind, postion, velocity);
         }
