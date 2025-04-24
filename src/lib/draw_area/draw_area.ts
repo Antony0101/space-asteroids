@@ -16,6 +16,13 @@ type workTypes = {
         scale: vector2D;
         rotate: number;
     };
+    drawImage: {
+        image: HTMLImageElement;
+        pos: vector2D;
+        width: number;
+        height: number;
+        rotate?: number;
+    };
 };
 
 export type workTypeNames = keyof workTypes;
@@ -59,6 +66,19 @@ class DrawArea {
         this.jobs.push({
             workType: "strokeTriangle",
             params: { pos, size, color },
+        });
+    }
+
+    drawImage(
+        image: HTMLImageElement,
+        pos: vector2D,
+        width: number,
+        height: number,
+        rotate?: number,
+    ) {
+        this.jobs.push({
+            workType: "drawImage",
+            params: { image, pos, width, height, rotate },
         });
     }
 

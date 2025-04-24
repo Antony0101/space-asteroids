@@ -87,6 +87,17 @@ class Canvas2DAdapterDrawArea {
                         job.params.scale,
                         job.params.rotate,
                     );
+                    break;
+                case "drawImage": {
+                    this.drawImage(
+                        job.params.image,
+                        job.params.pos,
+                        job.params.width,
+                        job.params.height,
+                        job.params.rotate,
+                    );
+                    break;
+                }
             }
         }
         this.canvas.restore();
@@ -151,6 +162,21 @@ class Canvas2DAdapterDrawArea {
     ) {
         const matrix = this.createTransformMatrix(translate, scale, rotate);
         this.innerRender(jobs, matrix);
+    }
+
+    drawImage(
+        image: HTMLImageElement,
+        pos: vector2D,
+        width: number,
+        height: number,
+        rotate?: number,
+    ) {
+        this.canvas.save();
+        if (rotate) {
+            this.canvas.rotate(rotate);
+        }
+        this.canvas.drawImage(image, pos.x, pos.y, width, height);
+        this.canvas.restore();
     }
 }
 

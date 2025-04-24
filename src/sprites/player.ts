@@ -14,6 +14,11 @@ import Circle_sprite from "./circleSprite";
 import Shot from "./shot";
 import DrawArea from "../lib/draw_area/draw_area";
 
+const shipImage = new Image();
+
+shipImage.src = "/ship.svg";
+console.log("dddd", shipImage);
+
 class Player extends Circle_sprite {
     pos: vector2D;
     rotation: number = 0;
@@ -24,17 +29,26 @@ class Player extends Circle_sprite {
     constructor(x: number, y: number) {
         super(x, y, PLAYER_RADIUS, "white");
         this.pos = new vector2D(x, y);
-        this.rotation = 0;
+        this.rotation = 180;
         this.spriteType = "Player";
     }
 
     draw() {
         const drawArea = new DrawArea();
+        const imageArea = new DrawArea();
+        imageArea.drawImage(
+            shipImage,
+            new vector2D(-25, -25),
+            50,
+            50,
+            ((this.rotation + 180) * Math.PI) / 180,
+        );
+        drawArea.addDrawArea(imageArea, this.pos);
         const forward = new vector2D(0, 1).rotateDeg(this.rotation);
         const right = new vector2D(0, 1)
             .rotateDeg(this.rotation + 90)
             .mul(this.radius / 1.5);
-        const a = this.pos.copy().add(forward.copy().mul(this.radius));
+        // const a = this.pos.copy().add(forward.copy().mul(this.radius));
         const b = this.pos
             .copy()
             .sub(forward.copy().mul(this.radius))
@@ -43,34 +57,34 @@ class Player extends Circle_sprite {
             .copy()
             .sub(forward.copy().mul(this.radius))
             .sub(right);
-        drawArea.fillPolygon([a, b, this.pos, c], this.color);
-        drawArea.fillCircle(this.pos, (2 * this.radius) / 7, "black");
-        // interesting circle
-        // const d = b
-        //     .copy()
-        //     .add(c)
-        //     .div(2)
-        //     .add(new vector2D(0, 1).mul(this.radius / 2));
+        // drawArea.fillPolygon([a, b, this.pos, c], this.color);
+        // drawArea.fillCircle(this.pos, (2 * this.radius) / 7, "black");
+        // // interesting circle
+        // // const d = b
+        // //     .copy()
+        // //     .add(c)
+        // //     .div(2)
+        // //     .add(new vector2D(0, 1).mul(this.radius / 2));
         const fireMidPoint = b
             .copy()
             .add(c)
             .div(2)
             .add(new vector2D(0, -this.radius / 4).rotateDeg(this.rotation));
-        // this.isAccelerating && drawCircle(ctx, d, this.radius / 2, this.color);
+        // // this.isAccelerating && drawCircle(ctx, d, this.radius / 2, this.color);
 
-        // interesting triangle
-        // const fireA = fireMidPoint
-        //     .copy()
-        //     .add(forward.copy().mul(this.radius / 2));
-        // const fireB = fireMidPoint
-        //     .copy()
-        //     .sub(forward.copy().mul(this.radius / 2))
-        //     .add(right);
-        // const fireC = fireMidPoint
-        //     .copy()
-        //     .sub(forward.copy().mul(this.radius / 2))
-        //     .sub(right);
-        // fillPolygon(ctx, [fireA, fireB, fireC], "orange");
+        // // interesting triangle
+        // // const fireA = fireMidPoint
+        // //     .copy()
+        // //     .add(forward.copy().mul(this.radius / 2));
+        // // const fireB = fireMidPoint
+        // //     .copy()
+        // //     .sub(forward.copy().mul(this.radius / 2))
+        // //     .add(right);
+        // // const fireC = fireMidPoint
+        // //     .copy()
+        // //     .sub(forward.copy().mul(this.radius / 2))
+        // //     .sub(right);
+        // // fillPolygon(ctx, [fireA, fireB, fireC], "orange");
 
         const fireB = fireMidPoint
             .copy()
@@ -95,10 +109,10 @@ class Player extends Circle_sprite {
             );
         this.isAccelerating &&
             drawArea.strokePolygon([fireA, fireB, fireC], this.color);
-        // fillCircle(ctx, fireB, this.radius / 8, "yellow");
-        // fillCircle(ctx, fireC, this.radius / 8, "green");
-        // fillCircle(ctx, fireA, this.radius / 8, "blue");
-        // fillCircle(ctx, fireMidPoint, this.radius / 8, "red");
+        // // fillCircle(ctx, fireB, this.radius / 8, "yellow");
+        // // fillCircle(ctx, fireC, this.radius / 8, "green");
+        // // fillCircle(ctx, fireA, this.radius / 8, "blue");
+        // // fillCircle(ctx, fireMidPoint, this.radius / 8, "red");
         return drawArea;
     }
 

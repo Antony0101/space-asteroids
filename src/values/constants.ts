@@ -13,5 +13,5 @@ export const PLAYER_INERTIA_FACTOR = 10;
 
 export const SHOT_RADIUS = 5;
 
-export const DEBUG_MODE: "full" | "half" | "few" | "off" = "few";
+export const DEBUG_MODE: "full" | "half" | "few" | "off" = "off";
 export const FRAME_RATE = 60;
