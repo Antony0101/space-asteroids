@@ -6,6 +6,7 @@ import DrawArea from "../lib/draw_area/draw_area";
 class Asteroid extends Circle_sprite {
     constructor(x: number, y: number, radius: number) {
         super(x, y, radius, "white");
+        this.spriteType = "Asteroid";
     }
 
     draw() {

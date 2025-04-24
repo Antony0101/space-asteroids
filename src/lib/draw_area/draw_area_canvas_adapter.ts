@@ -32,8 +32,6 @@ class Canvas2DAdapterDrawArea {
         const cos = Math.cos(rad);
         const sin = Math.sin(rad);
 
-        console.log("cos", cos, "sin", sin);
-
         // Scale + Rotate
         const a = cos * scale.x;
         const b = sin * scale.x;
@@ -152,7 +150,6 @@ class Canvas2DAdapterDrawArea {
         rotate: number,
     ) {
         const matrix = this.createTransformMatrix(translate, scale, rotate);
-        console.log("dddd", matrix);
         this.innerRender(jobs, matrix);
     }
 }

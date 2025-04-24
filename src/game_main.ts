@@ -5,7 +5,9 @@ import AsteroidField from "./sprites/asteroidFeilds";
 import Player from "./sprites/player";
 import Shot from "./sprites/shot";
 import { Sprite_abstract, Sprite_group } from "./sprites/sprite";
+import prinfDebugLogs from "./utils/debugLogs";
 import { sleepFrame } from "./utils/frameTimer";
+import { DEBUG_MODE, FRAME_RATE } from "./values/constants";
 import global_Object from "./values/global";
 
 type callback_events = "game_over" | "shot_hit" | "game_reset";
@@ -84,7 +86,10 @@ function game_main(
                 mainArea.addDrawArea(sprite.draw());
             });
             canvasAdapter.render(mainArea);
-            dt = await sleepFrame(60);
+            if (DEBUG_MODE === "few") {
+                prinfDebugLogs(allSprites);
+            }
+            dt = await sleepFrame(FRAME_RATE);
         }
     }
 

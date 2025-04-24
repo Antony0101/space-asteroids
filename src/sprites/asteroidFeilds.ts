@@ -50,6 +50,7 @@ class AsteroidField extends Sprite_abstract {
     constructor() {
         super();
         this.spawn_timer = 0;
+        this.spriteType = "AsteroidField";
     }
 
     spawn(radius: number, postion: vector2D, velocity: vector2D) {

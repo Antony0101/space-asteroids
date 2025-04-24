@@ -5,6 +5,7 @@ import DrawArea from "../lib/draw_area/draw_area";
 class Shot extends Circle_sprite {
     constructor(x: number, y: number) {
         super(x, y, SHOT_RADIUS, "white");
+        this.spriteType = "Shot";
     }
 
     update(dt: number) {

@@ -6,6 +6,7 @@ class Sprite_abstract {
     // instance variables
     spriteId: number = 0;
     isActive: boolean = true;
+    spriteType: string = "abstract";
 
     constructor() {
         this.spriteId = Sprite_abstract.curSpriteId;

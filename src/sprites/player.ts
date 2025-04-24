@@ -25,6 +25,7 @@ class Player extends Circle_sprite {
         super(x, y, PLAYER_RADIUS, "white");
         this.pos = new vector2D(x, y);
         this.rotation = 0;
+        this.spriteType = "Player";
     }
 
     draw() {

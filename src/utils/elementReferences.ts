@@ -21,8 +21,6 @@ const highScoreElement = document.getElementById(
 ) as HTMLSpanElement;
 const controlsElement = document.getElementById("controls") as HTMLDivElement;
 
-// console.log(canvas, menuElement, topBarElement);
-
 export {
     canvas,
     menuElement,
