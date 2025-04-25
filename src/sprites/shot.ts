@@ -8,8 +8,20 @@ class Shot extends Circle_sprite {
         this.spriteType = "Shot";
     }
 
+    updateOutsideBounds() {
+        if (
+            this.pos.x < -(0.1 * window.innerWidth + window.innerWidth / 2) ||
+            this.pos.x > window.innerWidth / 2 + 0.1 * window.innerWidth ||
+            this.pos.y < -(0.1 * window.innerHeight + window.innerHeight / 2) ||
+            this.pos.y > window.innerHeight / 2 + 0.1 * window.innerHeight
+        ) {
+            this.kill();
+        }
+    }
+
     update(dt: number) {
         this.pos.add(this.velocity.copy().mul(dt));
+        this.updateOutsideBounds();
     }
 
     draw() {
