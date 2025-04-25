@@ -1,4 +1,5 @@
 import vector2D from "../../utils/vector";
+import HtmlImage from "../htmlImage";
 import DrawArea, { workTypeList } from "./draw_area";
 
 class Canvas2DAdapterDrawArea {
@@ -77,6 +78,13 @@ class Canvas2DAdapterDrawArea {
                         job.params.color,
                     );
                     break;
+                case "fillCircleImage":
+                    this.fillCircleImage(
+                        job.params.pos,
+                        job.params.radius,
+                        job.params.texture,
+                    );
+                    break;
                 case "fillPolygon":
                     this.fillPolygon(job.params.cordinates, job.params.color);
                     break;
@@ -117,6 +125,24 @@ class Canvas2DAdapterDrawArea {
         this.canvas.fillStyle = color;
         this.canvas.fill();
         this.canvas.closePath();
+    }
+
+    fillCircleImage(pos: vector2D, radius: number, image: HtmlImage) {
+        this.canvas.save();
+        this.canvas.beginPath();
+        this.canvas.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
+        this.canvas.closePath();
+        this.canvas.clip();
+        // this.canvas.fillStyle = texture.image;
+        this.canvas.drawImage(
+            image.image,
+            pos.x - radius,
+            pos.y - radius,
+            radius * 2,
+            radius * 2,
+        );
+        this.canvas.restore();
+        // this.canvas.fill();
     }
 
     strokeTriangle(pos: vector2D, size: number, color: string = "black") {

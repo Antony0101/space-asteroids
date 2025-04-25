@@ -1,4 +1,5 @@
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+const ctx = canvas?.getContext("2d")!;
 
 const menuElement = document.getElementById("pause-menu") as HTMLDivElement;
 const overMenuElement = document.getElementById("over-menu") as HTMLDivElement;
@@ -23,6 +24,7 @@ const controlsElement = document.getElementById("controls") as HTMLDivElement;
 
 export {
     canvas,
+    ctx,
     menuElement,
     topBarElement,
     startButton,

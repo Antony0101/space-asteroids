@@ -12,10 +12,11 @@ import {
     highScoreElement,
     controlsElement,
     resetScoreButton,
+    ctx,
 } from "./utils/elementReferences";
 import addCustomEventListeners from "./utils/eventHandlers";
 
-const ctx = canvas?.getContext("2d");
+// const ctx = canvas?.getContext("2d");
 if (!ctx) {
     throw new Error("Canvas not found");
 }

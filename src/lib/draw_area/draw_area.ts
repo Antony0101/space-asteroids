@@ -1,12 +1,14 @@
 // Draw Area is abstract canvas with (0,0) as the middle where different shapes can be drawn
 
 import vector2D from "../../utils/vector";
+import HtmlImage from "../htmlImage";
 
 type ColorType = string;
 
 type workTypes = {
     strokeCircle: { pos: vector2D; radius: number; color: ColorType };
     fillCircle: { pos: vector2D; radius: number; color: ColorType };
+    fillCircleImage: { pos: vector2D; radius: number; texture: HtmlImage };
     strokePolygon: { cordinates: vector2D[]; color: ColorType };
     fillPolygon: { cordinates: vector2D[]; color: ColorType };
     strokeTriangle: { pos: vector2D; size: number; color: string };
@@ -45,6 +47,13 @@ class DrawArea {
         this.jobs.push({
             workType: "fillCircle",
             params: { pos, radius, color },
+        });
+    }
+
+    fillCircleImage(pos: vector2D, radius: number, texture: HtmlImage) {
+        this.jobs.push({
+            workType: "fillCircleImage",
+            params: { pos, radius, texture },
         });
     }
 

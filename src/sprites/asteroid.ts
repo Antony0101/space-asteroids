@@ -2,6 +2,9 @@ import { ASTEROID_MIN_RADIUS } from "../values/constants";
 import { getRandomInt } from "../utils/random";
 import Circle_sprite from "./circleSprite";
 import DrawArea from "../lib/draw_area/draw_area";
+import HtmlImage from "../lib/htmlImage";
+
+const asteroidTexture = new HtmlImage("/asteroid-texture.jpg");
 
 class Asteroid extends Circle_sprite {
     constructor(x: number, y: number, radius: number) {
@@ -11,7 +14,7 @@ class Asteroid extends Circle_sprite {
 
     draw() {
         const drawArea = new DrawArea();
-        drawArea.strokeCircle(this.pos, this.radius, this.color);
+        drawArea.fillCircleImage(this.pos, this.radius, asteroidTexture);
         return drawArea;
     }
 
