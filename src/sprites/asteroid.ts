@@ -17,28 +17,16 @@ class Asteroid extends Circle_sprite {
 
     updateOutsideBounds() {
         if (
-            this.pos.x < -(0.1 * window.innerWidth + window.innerWidth / 2) ||
-            this.pos.x > window.innerWidth / 2 + 0.1 * window.innerWidth ||
-            this.pos.y < -(0.1 * window.innerHeight + window.innerHeight / 2) ||
-            this.pos.y > window.innerHeight / 2 + 0.1 * window.innerHeight
+            this.pos.x < -(0.2 * window.innerWidth + window.innerWidth / 2) ||
+            this.pos.x > window.innerWidth / 2 + 0.2 * window.innerWidth ||
+            this.pos.y < -(0.2 * window.innerHeight + window.innerHeight / 2) ||
+            this.pos.y > window.innerHeight / 2 + 0.2 * window.innerHeight
         ) {
             this.kill();
         }
     }
 
     update(dt: number) {
-        // if (this.pos.x > global_Object.screenWidth) {
-        //     this.pos.x = 0;
-        // }
-        // if (this.pos.x < 0) {
-        //     this.pos.x = global_Object.screenWidth;
-        // }
-        // if (this.pos.y > global_Object.screenHeight) {
-        //     this.pos.y = 0;
-        // }
-        // if (this.pos.y < 0) {
-        //     this.pos.y = global_Object.screenHeight;
-        // }
         this.pos.add(this.velocity.copy().mul(dt));
         this.updateOutsideBounds();
     }

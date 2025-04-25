@@ -17,7 +17,7 @@ class AsteroidField extends Sprite_abstract {
             new vector2D(1, 0),
             (y: number) =>
                 new vector2D(
-                    -ASTEROID_MAX_RADIUS,
+                    -(ASTEROID_MAX_RADIUS + global_Object.screenWidth / 2),
                     y * global_Object.screenHeight,
                 ),
         ],
@@ -25,7 +25,7 @@ class AsteroidField extends Sprite_abstract {
             new vector2D(-1, 0),
             (y: number) =>
                 new vector2D(
-                    global_Object.screenWidth + ASTEROID_MAX_RADIUS,
+                    global_Object.screenWidth / 2 + ASTEROID_MAX_RADIUS,
                     y * global_Object.screenHeight,
                 ),
         ],
@@ -34,7 +34,7 @@ class AsteroidField extends Sprite_abstract {
             (x: number) =>
                 new vector2D(
                     x * global_Object.screenWidth,
-                    -ASTEROID_MAX_RADIUS,
+                    -(ASTEROID_MAX_RADIUS + global_Object.screenHeight / 2),
                 ),
         ],
         [
@@ -42,7 +42,7 @@ class AsteroidField extends Sprite_abstract {
             (x: number) =>
                 new vector2D(
                     x * global_Object.screenWidth,
-                    global_Object.screenHeight + ASTEROID_MAX_RADIUS,
+                    global_Object.screenHeight / 2 + ASTEROID_MAX_RADIUS,
                 ),
         ],
     ] as const;

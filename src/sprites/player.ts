@@ -152,6 +152,16 @@ class Player extends Circle_sprite {
     }
 
     playerCollidedAnimation(dt: number) {
+        // fallback if the logic fails
+        if (
+            this.pos.x < -(0.2 * window.innerWidth + window.innerWidth / 2) ||
+            this.pos.x > window.innerWidth / 2 + 0.2 * window.innerWidth ||
+            this.pos.y < -(0.2 * window.innerHeight + window.innerHeight / 2) ||
+            this.pos.y > window.innerHeight / 2 + 0.2 * window.innerHeight
+        ) {
+            this.kill();
+        }
+        // collided animation logic
         if (this.rotation % 360 > 1) {
             this.rotate(this.rotation % 360 <= 180 ? -dt / 4 : dt / 4);
         }

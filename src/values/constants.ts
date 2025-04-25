@@ -1,5 +1,5 @@
-export const ASTEROID_MIN_RADIUS = 20;
-export const ASTEROID_KINDS = 3;
+export const ASTEROID_MIN_RADIUS = 20 as const;
+export const ASTEROID_KINDS = 3 as const;
 export const ASTEROID_SPAWN_RATE = 0.8; // seconds
 export const ASTEROID_MAX_RADIUS = ASTEROID_MIN_RADIUS * ASTEROID_KINDS;
 
