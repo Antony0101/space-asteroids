@@ -8,6 +8,7 @@ export const PLAYER_TURN_SPEED = 300;
 export const PLAYER_SPEED = 200;
 export const PLAYER_SHOT_SPEED = 500;
 export const PLAYER_SHOOT_COOLDOWN = 0.3;
+export const PLAYER_COLLIDED_ANIMATION_COOLDOWN = 0.2;
 export const PLAYER_ACCELERATION = 5000;
 export const PLAYER_INERTIA_FACTOR = 10;
 

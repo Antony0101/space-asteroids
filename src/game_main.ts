@@ -52,6 +52,13 @@ function game_main(
             if (stop) {
                 break;
             }
+            if (
+                player.isPlayerCollided &&
+                !player.isPlayerCollidedAimationPending
+            ) {
+                stop = true;
+                callback("game_over", null);
+            }
             ctx.fillStyle = "black";
             ctx.fillRect(
                 0,
@@ -60,16 +67,19 @@ function game_main(
                 global_Object.screenHeight,
             );
             updateables.forEach((sprite) => sprite.update(dt));
-            asteroids.forEach((asteroid) => {
-                // asteroid collision with player
-                if (asteroid.isCollided(player)) {
-                    // allSprites
-                    //     .getSpriteArray()
-                    //     .forEach((sprite) => sprite.kill());
-                    stop = true;
-                    callback("game_over", null);
-                }
-            });
+            !player.isPlayerCollided &&
+                asteroids.forEach((asteroid) => {
+                    // asteroid collision with player
+                    if (asteroid.isCollided(player)) {
+                        // allSprites
+                        //     .getSpriteArray()
+                        //     .forEach((sprite) => sprite.kill());
+                        // stop = true;
+                        // callback("game_over", null);
+                        player.isPlayerCollided = true;
+                        player.speed = 0;
+                    }
+                });
             asteroids.forEach((asteroid) => {
                 shots.getSpriteArray().forEach((shot) => {
                     // shot collision with asteroid

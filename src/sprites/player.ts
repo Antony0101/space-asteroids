@@ -1,5 +1,6 @@
 import {
     PLAYER_ACCELERATION,
+    PLAYER_COLLIDED_ANIMATION_COOLDOWN,
     PLAYER_INERTIA_FACTOR,
     PLAYER_RADIUS,
     PLAYER_SHOOT_COOLDOWN,
@@ -13,11 +14,11 @@ import vector2D from "../utils/vector";
 import Circle_sprite from "./circleSprite";
 import Shot from "./shot";
 import DrawArea from "../lib/draw_area/draw_area";
+import { getRandomInt } from "../utils/random";
 
 const shipImage = new Image();
 
 shipImage.src = "/ship.svg";
-console.log("dddd", shipImage);
 
 class Player extends Circle_sprite {
     pos: vector2D;
@@ -25,6 +26,14 @@ class Player extends Circle_sprite {
     shotCooldown: number = 0;
     isAccelerating: boolean = false;
     speed: number = 0;
+    isPlayerCollided: boolean = false;
+    isPlayerCollidedAimationPending: boolean = true;
+    collideAccelerationCooldown: number = PLAYER_COLLIDED_ANIMATION_COOLDOWN;
+    fires = {
+        accelerate: true,
+        sideleft: 90,
+        sideright: 270,
+    };
 
     constructor(x: number, y: number) {
         super(x, y, PLAYER_RADIUS, "white");
@@ -44,75 +53,62 @@ class Player extends Circle_sprite {
             ((this.rotation + 180) * Math.PI) / 180,
         );
         drawArea.addDrawArea(imageArea, this.pos);
-        const forward = new vector2D(0, 1).rotateDeg(this.rotation);
-        const right = new vector2D(0, 1)
-            .rotateDeg(this.rotation + 90)
-            .mul(this.radius / 1.5);
-        // const a = this.pos.copy().add(forward.copy().mul(this.radius));
-        const b = this.pos
-            .copy()
-            .sub(forward.copy().mul(this.radius))
-            .add(right);
-        const c = this.pos
-            .copy()
-            .sub(forward.copy().mul(this.radius))
-            .sub(right);
-        // drawArea.fillPolygon([a, b, this.pos, c], this.color);
-        // drawArea.fillCircle(this.pos, (2 * this.radius) / 7, "black");
-        // // interesting circle
-        // // const d = b
-        // //     .copy()
-        // //     .add(c)
-        // //     .div(2)
-        // //     .add(new vector2D(0, 1).mul(this.radius / 2));
-        const fireMidPoint = b
-            .copy()
-            .add(c)
-            .div(2)
-            .add(new vector2D(0, -this.radius / 4).rotateDeg(this.rotation));
-        // // this.isAccelerating && drawCircle(ctx, d, this.radius / 2, this.color);
+        function getFirePoints(
+            pos: vector2D,
+            rotation: number,
+            radius: number,
+        ) {
+            const forward = new vector2D(0, 1).rotateDeg(rotation);
+            const right = new vector2D(0, 1)
+                .rotateDeg(rotation + 90)
+                .mul(radius / 1.5);
+            const b = pos.copy().sub(forward.copy().mul(radius)).add(right);
+            const c = pos.copy().sub(forward.copy().mul(radius)).sub(right);
 
-        // // interesting triangle
-        // // const fireA = fireMidPoint
-        // //     .copy()
-        // //     .add(forward.copy().mul(this.radius / 2));
-        // // const fireB = fireMidPoint
-        // //     .copy()
-        // //     .sub(forward.copy().mul(this.radius / 2))
-        // //     .add(right);
-        // // const fireC = fireMidPoint
-        // //     .copy()
-        // //     .sub(forward.copy().mul(this.radius / 2))
-        // //     .sub(right);
-        // // fillPolygon(ctx, [fireA, fireB, fireC], "orange");
+            const fireMidPoint = b
+                .copy()
+                .add(c)
+                .div(2)
+                .add(new vector2D(0, radius / 4).rotateDeg(rotation));
 
-        const fireB = fireMidPoint
-            .copy()
-            .add(
-                new vector2D(1, 0)
-                    .rotateDeg(this.rotation)
-                    .mul(this.radius / 3),
+            const fireB = fireMidPoint
+                .copy()
+                .add(new vector2D(1, 0).rotateDeg(rotation).mul(radius / 3));
+            const fireC = fireMidPoint
+                .copy()
+                .sub(new vector2D(1, 0).rotateDeg(rotation).mul(radius / 3));
+            const fireA = fireMidPoint
+                .copy()
+                .add(new vector2D(0, -2).rotateDeg(rotation).mul(radius / 2));
+            return [fireA, fireB, fireC];
+        }
+
+        ((this.isPlayerCollided && this.fires.accelerate) ||
+            (!this.isPlayerCollided && this.isAccelerating)) &&
+            drawArea.strokePolygon(
+                getFirePoints(this.pos, this.rotation, this.radius),
+                this.color,
             );
-        const fireC = fireMidPoint
-            .copy()
-            .sub(
-                new vector2D(1, 0)
-                    .rotateDeg(this.rotation)
-                    .mul(this.radius / 3),
+        this.isPlayerCollided &&
+            this.fires.sideright &&
+            drawArea.strokePolygon(
+                getFirePoints(
+                    this.pos,
+                    this.rotation + this.fires.sideright,
+                    this.radius,
+                ),
+                this.color,
             );
-        const fireA = fireMidPoint
-            .copy()
-            .add(
-                new vector2D(0, -2)
-                    .rotateDeg(this.rotation)
-                    .mul(this.radius / 2),
+        this.isPlayerCollided &&
+            this.fires.sideleft &&
+            drawArea.strokePolygon(
+                getFirePoints(
+                    this.pos,
+                    this.rotation + this.fires.sideleft,
+                    this.radius,
+                ),
+                this.color,
             );
-        this.isAccelerating &&
-            drawArea.strokePolygon([fireA, fireB, fireC], this.color);
-        // // fillCircle(ctx, fireB, this.radius / 8, "yellow");
-        // // fillCircle(ctx, fireC, this.radius / 8, "green");
-        // // fillCircle(ctx, fireA, this.radius / 8, "blue");
-        // // fillCircle(ctx, fireMidPoint, this.radius / 8, "red");
         return drawArea;
     }
 
@@ -155,7 +151,32 @@ class Player extends Circle_sprite {
             this.pos.y = -window.innerHeight / 2;
     }
 
+    playerCollidedAnimation(dt: number) {
+        if (this.rotation % 360 > 1) {
+            this.rotate(this.rotation % 360 <= 180 ? -dt / 4 : dt / 4);
+        }
+        if (this.collideAccelerationCooldown < 0) {
+            this.fires.accelerate = getRandomInt(0, 1) === 0 ? false : true;
+            this.fires.sideleft = getRandomInt(0, 10) * 36;
+            this.fires.sideright = getRandomInt(0, 10) * 36;
+            this.collideAccelerationCooldown =
+                PLAYER_COLLIDED_ANIMATION_COOLDOWN;
+        }
+        if (this.pos.y < window.innerHeight / 2) {
+            this.accelerate(dt / 2, true);
+            this.move(dt);
+            return;
+        }
+        this.isPlayerCollidedAimationPending = false;
+    }
+
     update(dt: number) {
+        if (this.isPlayerCollided) {
+            this.isAccelerating = false;
+            this.collideAccelerationCooldown -= dt;
+            this.playerCollidedAnimation(dt);
+            return;
+        }
         this.isAccelerating = false;
         this.shotCooldown -= dt;
         this.move(dt);
